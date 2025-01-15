@@ -1,0 +1,20 @@
+# Create docker image
+# docker build -t NAME_HERE .
+
+# Run Docker image in https
+# docker run -dp 5005:5000 NAME_HERE
+
+# Watch Docker image in https
+    # PowerShell
+    # docker run -dp 5005:5000 -w /app -v "$(pwd):/app" NAME_HERE
+    # CMD
+    # docker run -dp 5005:5000 -w /app -v "%cd%:/app" NAME_HERE
+    # Git bash
+    # MSYS_NO_PATHCONV=1 docker run -dp 5005:5000 -w /app -v "$(pwd):/app" NAME_HERE
+
+
+
+
+
+# Docker images
+# flask-smorest-api
