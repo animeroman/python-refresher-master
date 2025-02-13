@@ -41,24 +41,30 @@ def create_app(db_url=None):
         return {"is_admin": False}
 
     @jwt.expired_token_loader
-    def expired_token_callabck(jwt_header, jwt_payload):
+    def expired_token_callback(jwt_header, jwt_payload):
         return (
             jsonify({"message": "The token has expired.", "error": "token_expired"}),
-            401
+            401,
         )
     
-    @jwt.expired_token_loader
-    def expired_token_callabck(error):
+    @jwt.invalid_token_loader
+    def invalid_token_callback(error):
         return (
-            jsonify({"message": "The token has expired.", "error": "token_expired"}),
-            401
+            jsonify({"message": "Signature verification failed.", "error": "invalid_token"}
+            ),
+            401,
         )
     
-    @jwt.expired_token_loader
-    def expired_token_callabck(error):
+    @jwt.unauthorized_loader
+    def missing_token_callback(error):
         return (
-            jsonify({"message": "The token has expired.", "error": "token_expired"}),
-            401
+            jsonify(
+                {
+                    "description": "Request does not contain an access token.", 
+                    "error": "authorization_required"
+                }
+            ),
+            401,
         )
 
     with app.app_context():
