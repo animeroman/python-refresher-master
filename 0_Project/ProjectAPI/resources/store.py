@@ -23,9 +23,16 @@ class Store(MethodView):
     @jwt_required()
     def delete(self, store_id):
         store = StoreModel.query.get_or_404(store_id)
+    
+        # Delete all related items first
+        for item in store.items:
+            db.session.delete(item)
+    
         db.session.delete(store)
         db.session.commit()
+        
         return {"message": "Store deleted"}, 200
+
 
 
 @blp.route("/store")
